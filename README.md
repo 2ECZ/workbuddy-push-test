@@ -31,7 +31,20 @@ git push -u origin main
 ## 验证推送成功
 
 ```bash
-git ls-remote https://github.com/2ECZ/workbuddy-push-test.git
+git ls-remote git@github.com:2ECZ/workbuddy-push-test.git
 ```
 
 能列出 `refs/heads/main` 即表示推送成功。
+
+## 本机连接配置（SSH，免密）
+
+本机已生成 `~/.ssh/id_ed25519_github`（ed25519），公钥登记在 GitHub 账号 `2ECZ` 的
+SSH keys 中。`~/.ssh/config` 把 `github.com` 指向 `ssh.github.com:443`（该网络 22 端口不通）：
+
+```bash
+git remote set-url origin git@github.com:2ECZ/workbuddy-push-test.git
+git push                 # 无需再输入 token
+ssh -T git@github.com    # 应返回 Hi 2ECZ!
+```
+
+> 私钥不要外传。HTTPS + Personal Access Token 仍然可用，但每次都需要额外传递凭据。
